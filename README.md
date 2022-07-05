@@ -1,52 +1,45 @@
-### Setup
-
 ## node lts install with nvm
 
 ```bash
 $ nvm install --lts
 ```
 
-## install react-native cli
+## install & delete react-native cli
 
 ```bash
-$ npm install -g react-native-cli
+install
+$ npm install -g @react-native-community/cli
+
+delete
+$ npm uninstall -g react-native-cli
 ```
 
 ## create react-native app
 
 ```bash
+$ npx react-native init ${project name}
+
 $ npx react-native init ${project name} --version 0.68.2
+
 $ npx react-native upgrade
 ```
 
-## Start IOS App
+## Ios Podfile
+```bash
+project pakage in ios/Podfile
+
+# use_flipper!()
+```
+
+## Ios cocoapods
 
 ```bash
-$ react-native run-ios
-
-project pakage in ios/Podfile
-# use_flipper!()
-
 install cocoapods
-
 cd ios
 $ pod install
 
-if , have a some error with install pod 
-error: ...
-
-zsh termenal brew uninstall cocoapods and then -arm64 cocoapods install
-solve:
-$ sudo gem uninstall cocoapods
-$ arch -arm64 brew install cocoapods 
-
-$ cd ios
-$ pod install
-```
-
-## Start Android App
-```bash
-$ react-native run-android
+$ sudo gem uninstall cocoapods (already installed cocoapods)
+$ arch -arm64 brew install cocoapods
 ```
 ---
 
