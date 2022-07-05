@@ -1,22 +1,53 @@
 ### Setup
 
-```bash
-$ 
-```
-
-### ESLint
+## node lts install with nvm
 
 ```bash
-$ 
-$ 
+$ nvm install --lts
 ```
 
-### Emotion
+## install react-native cli
 
 ```bash
-$ npm install @emotion/react @emotion/native
+$ npm install -g react-native-cli
 ```
 
+## create react-native app
+
+```bash
+$ npx react-native init ${project name} --version 0.68.2
+$ npx react-native upgrade
+```
+
+## Start IOS App
+
+```bash
+$ react-native run-ios
+
+project pakage in ios/Podfile
+# use_flipper!()
+
+install cocoapods
+
+cd ios
+$ pod install
+
+if , have a some error with install pod 
+error: ...
+
+zsh termenal brew uninstall cocoapods and then -arm64 cocoapods install
+solve:
+$ sudo gem uninstall cocoapods
+$ arch -arm64 brew install cocoapods 
+
+$ cd ios
+$ pod install
+```
+
+## Start Android App
+```bash
+$ react-native run-android
+```
 ---
 
 ### Reference link
