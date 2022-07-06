@@ -42,12 +42,6 @@ $ sudo gem uninstall cocoapods (already installed cocoapods)
 $ arch -arm64 brew install cocoapods
 ```
 ---
-
-## Common Error Report
--
-
----
-
 ### Reference link
 
 - [Node.js](https://nodejs.org/ko) install , update
