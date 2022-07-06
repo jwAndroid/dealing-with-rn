@@ -5,14 +5,14 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import Greeting from './src/components/Greeting';
+import Box from './src/components/Box';
 
-const App = () => (
-  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Greeting />
-  </View>
-);
-
-// return , {} 생략
+const App = () => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Box how />
+    </View>
+  );
+};
 
 export default App;
