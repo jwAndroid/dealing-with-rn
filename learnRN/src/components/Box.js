@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Box = props => {
-  return <View style={[styles.box, props.how ? styles.round : null]} />;
+const Box = ({how}) => {
+  return <View style={[styles.box, how ? styles.round : null]} />;
 };
 
 export default Box;
