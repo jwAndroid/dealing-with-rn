@@ -25,13 +25,8 @@ const DateHead = ({date}) => {
 
   return (
     <View>
-      <View
-        style={
-          Platform.OS === 'android'
-            ? styles.container
-            : [styles.container, {height: top}]
-        }>
-        <StatusBar backgroundColor="#26a69a" barStyle="light-content" />
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#26a69a" barStyle="dark-content" />
 
         <View style={styles.block}>
           <Text style={styles.dateText}>{`${y}년 ${m}월 ${d}일`}</Text>

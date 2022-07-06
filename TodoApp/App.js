@@ -13,6 +13,7 @@ import Empty from './components/Empty';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'gray',
   },
 });
 
@@ -21,7 +22,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView edges={['bottom']} style={styles.container}>
+      <SafeAreaView edges={['bottom', 'top']} style={styles.container}>
         <DateHead date={today} />
         <Empty />
 
