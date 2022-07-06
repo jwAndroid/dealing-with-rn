@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     justifyContent: 'center',
-    backgroundColor: 'red',
+    backgroundColor: 'orange',
   },
   input: {
     fontSize: 16,
@@ -18,9 +18,26 @@ const styles = StyleSheet.create({
 });
 
 const AddTodo = () => {
+  const [value, setValue] = useState('');
+
+  const onChangeText = text => {
+    setValue(text);
+  };
+
+  const onSubmitEditing = () => {
+    setValue('할일을 입력하세요.');
+  };
+
   return (
     <View style={styles.block}>
-      <TextInput placeholder="할일을 입력하세요." style={styles.input} />
+      <TextInput
+        value={value}
+        style={styles.input}
+        placeholder="할일을 입력하세요."
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        returnKeyType="done"
+      />
     </View>
   );
 };

@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import DateHead from './components/DateHead';
@@ -15,18 +15,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'gray',
   },
+  avoid: {
+    flex: 1,
+  },
 });
 
 const App = () => {
   const today = new Date();
 
+  // KeyboardAvoidingView 에 적용시킬 컴포넌트를 넣어줘야한다.
+  // 인풋만 넣으면 안된다.
+
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom', 'top']} style={styles.container}>
-        <DateHead date={today} />
-        <Empty />
+        <KeyboardAvoidingView
+          behavior={Platform.select({ios: 'padding', android: undefined})}
+          style={styles.avoid}>
+          <DateHead date={today} />
 
-        <AddTodo />
+          <Empty />
+
+          <AddTodo />
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
