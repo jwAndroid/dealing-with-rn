@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TodoList = ({todos, onToggle}) => {
+const TodoList = ({todos, onToggle, onRemove}) => {
   return (
     <FlatList
       style={styles.list}
@@ -24,6 +24,7 @@ const TodoList = ({todos, onToggle}) => {
             done={item.done}
             text={item.text}
             onToggle={onToggle}
+            onRemove={onRemove}
           />
         );
       }}
