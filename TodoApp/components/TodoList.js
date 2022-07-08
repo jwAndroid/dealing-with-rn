@@ -12,13 +12,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const TodoList = ({todos}) => {
+const TodoList = ({todos, onToggle}) => {
   return (
     <FlatList
       style={styles.list}
       data={todos}
       renderItem={({item}) => {
-        return <TodoItem id={item.id} done={item.done} text={item.text} />;
+        return (
+          <TodoItem
+            id={item.id}
+            done={item.done}
+            text={item.text}
+            onToggle={onToggle}
+          />
+        );
       }}
       keyExtractor={item => item.id.toString()}
     />

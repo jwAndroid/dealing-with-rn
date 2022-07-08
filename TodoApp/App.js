@@ -27,6 +27,8 @@ const App = () => {
     {id: 3, text: '투두 리스트 만들어보기', done: true},
   ]);
 
+  const today = new Date();
+
   const onInsert = text => {
     const nextId =
       todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
@@ -37,11 +39,16 @@ const App = () => {
       done: false,
     };
 
-    // setTodos([...todo , ...todos])
     setTodos(todos.concat(todo));
   };
 
-  const today = new Date();
+  const onToggle = id => {
+    const nextTodos = todos.map(todo =>
+      todo.id === id ? {...todo, done: !todo.done} : todo,
+    );
+
+    setTodos(nextTodos);
+  };
 
   return (
     <SafeAreaProvider>
@@ -51,7 +58,11 @@ const App = () => {
           style={styles.avoid}>
           <DateHead date={today} />
 
-          {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
+          {todos.length === 0 ? (
+            <Empty />
+          ) : (
+            <TodoList todos={todos} onToggle={onToggle} />
+          )}
 
           <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>

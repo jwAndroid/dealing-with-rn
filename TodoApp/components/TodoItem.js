@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const styles = StyleSheet.create({
   item: {
@@ -35,17 +35,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const TodoItem = ({id, text, done}) => {
+const TodoItem = ({id, text, done, onToggle}) => {
   return (
     <View style={styles.item}>
-      <View style={[styles.circle, done && styles.filled]}>
-        {done && (
-          <Image
-            style={styles.image}
-            source={require('../assets/images/circle.png')}
-          />
-        )}
-      </View>
+      <TouchableOpacity onPress={() => onToggle(id)}>
+        <View style={[styles.circle, done && styles.filled]}>
+          {done && (
+            <Image
+              style={styles.image}
+              source={require('../assets/images/circle.png')}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
 
       <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
     </View>
