@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Keyboard, StyleSheet, TextInput, View} from 'react-native';
 
 const styles = StyleSheet.create({
   block: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddTodo = () => {
+const AddTodo = ({onInsert}) => {
   const [value, setValue] = useState('');
 
   const onChangeText = text => {
@@ -25,7 +25,11 @@ const AddTodo = () => {
   };
 
   const onSubmitEditing = () => {
+    onInsert(value);
+
     setValue('할일을 입력하세요.');
+
+    Keyboard.dismiss();
   };
 
   return (
