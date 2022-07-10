@@ -3,19 +3,24 @@
  */
 
 import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import HomeScreen from './src/navigation/screens/HomeScreen';
 import DetailScreen from './src/navigation/screens/DetailScreen';
-import {Text, TouchableOpacity, View} from 'react-native';
+import HeaderlessScreen from './src/navigation/screens/HeaderlessScreen';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: true,
+        }}>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -52,6 +57,14 @@ const App = () => {
                 <Text>Right</Text>
               </TouchableOpacity>
             ),
+          }}
+        />
+
+        <Stack.Screen
+          name="Headerless"
+          component={HeaderlessScreen}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

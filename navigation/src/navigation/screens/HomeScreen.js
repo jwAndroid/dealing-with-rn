@@ -22,6 +22,11 @@ const HomeScreen = ({navigation}) => {
         title="detail id 3 열기"
         onPress={() => navigation.push('Detail', {id: 3})}
       />
+
+      <Button
+        title="헤더가 없는 스크린"
+        onPress={() => navigation.push('Headerless')}
+      />
     </View>
   );
 };
