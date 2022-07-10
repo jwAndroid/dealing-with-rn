@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Text, View} from 'react-native';
 
 const DetailScreen = ({route, navigation}) => {
+  useEffect(() => {
+    navigation.setOptions({title: `상세정보: ${route.params.id}`});
+  }, [navigation, route.params.id]);
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={{fontSize: 30}}>화면 아이디:{route.params.id}</Text>
