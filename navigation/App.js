@@ -3,10 +3,10 @@
  */
 
 import React from 'react';
-import DrawerNavigation from './src/navigation/DrawerNavigation';
+import StackNavigation from './src/navigation/StackNavigation';
 
 const App = () => {
-  return <DrawerNavigation />;
+  return <StackNavigation />;
 };
 
 export default App;

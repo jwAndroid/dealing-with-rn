@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, Text, View} from 'react-native';
+import {Button, View} from 'react-native';
 
 const HomeScreen = ({navigation}) => {
   useEffect(() => {
@@ -7,19 +7,7 @@ const HomeScreen = ({navigation}) => {
   }, [navigation]);
 
   return (
-    <View
-      style={{flex: 1, paddingVertical: 50, justifyContent: 'space-between'}}>
-      <View style={{margin: 5}}>
-        <Text>Home</Text>
-
-        <Button title="drawer open" onPress={() => navigation.openDrawer()} />
-
-        <Button
-          title="open setting"
-          onPress={() => navigation.navigate('Setting')}
-        />
-      </View>
-
+    <View style={{paddingVertical: 10}}>
       <Button
         title="detail screen id:1 open"
         onPress={() => navigation.push('Detail', {id: 1})}
