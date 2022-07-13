@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 const FeedsScreen = () => {
   const { logs } = useContext(LogContext);
 
-  console.log(logs);
+  console.log(JSON.stringify(logs, null, 2));
 
   return (
     <View style={styles.block}>
