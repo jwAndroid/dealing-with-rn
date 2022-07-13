@@ -22,6 +22,7 @@ const MainTab = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="view-stream" size={size} color={color} />
           ),
+          headerTitle: '피드',
         }}
       />
 
@@ -32,6 +33,7 @@ const MainTab = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="event" size={size} color={color} />
           ),
+          headerTitle: '달력',
         }}
       />
 
@@ -42,6 +44,7 @@ const MainTab = () => {
           tabBarIcon: ({ color, size }) => (
             <Icon name="search" size={size} color={color} />
           ),
+          headerTitle: '검색',
         }}
       />
     </Tab.Navigator>
