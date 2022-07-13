@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-
-import LogContext from '../context/LogContext';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
   block: {},
@@ -12,20 +10,7 @@ const styles = StyleSheet.create({
 });
 
 const FeedsScreen = () => {
-  const { text, setText } = useContext(LogContext);
-
-  console.log(text);
-
-  return (
-    <View style={styles.block}>
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        placeholder="입력하세요"
-        style={styles.input}
-      />
-    </View>
-  );
+  return <View style={styles.block} />;
 };
 
 export default FeedsScreen;
