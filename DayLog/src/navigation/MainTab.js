@@ -24,6 +24,7 @@ const MainTab = () => {
           ),
         }}
       />
+
       <Tab.Screen
         name="Calendar"
         component={CalendarScreen}
@@ -33,6 +34,7 @@ const MainTab = () => {
           ),
         }}
       />
+
       <Tab.Screen
         name="Search"
         component={SearchScreen}

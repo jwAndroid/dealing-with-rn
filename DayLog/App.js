@@ -6,12 +6,15 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import RootStack from './src/navigation/RootStack';
+import { LogContextProvider } from './src/context/LogContext';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <RootStack />
-    </NavigationContainer>
+    <LogContextProvider>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    </LogContextProvider>
   );
 };
 
