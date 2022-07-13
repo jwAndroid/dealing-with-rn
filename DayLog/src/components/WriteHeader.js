@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const WriteHeader = () => {
+const WriteHeader = ({ onSave }) => {
   const navigation = useNavigation();
 
   const onGoBack = () => {
@@ -50,7 +50,11 @@ const WriteHeader = () => {
           hasMarginRight
         />
 
-        <TransparentCircleButton name="check" color="#009688" />
+        <TransparentCircleButton
+          name="check"
+          color="#009688"
+          onPress={onSave}
+        />
       </View>
     </View>
   );
