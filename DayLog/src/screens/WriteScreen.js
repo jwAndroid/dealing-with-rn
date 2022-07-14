@@ -12,20 +12,34 @@ const styles = StyleSheet.create({
   avoidingView: { flex: 1 },
 });
 
-const WriteScreen = () => {
-  const [title, setTtitle] = useState();
-  const [body, setBody] = useState();
+const WriteScreen = ({ route }) => {
+  const log = route.params?.log;
+
+  const [title, setTtitle] = useState(log?.title ?? '');
+  const [body, setBody] = useState(log?.body ?? '');
 
   const navigation = useNavigation();
 
-  const { onCreate } = useContext(LogContext);
+  const { onCreate, onModify } = useContext(LogContext);
 
   const onSave = () => {
-    onCreate({
-      title,
-      body,
-      date: new Date().toISOString(),
-    });
+    // onModify({} : Object) {}
+    if (log) {
+      onModify({
+        id: log.id,
+        date: log.date,
+        title,
+        body,
+      });
+      // log 가 값이 존재할때 === 수정
+      // log 가 존재하지 않을때 === 새로 만드는 객체
+    } else {
+      onCreate({
+        title,
+        body,
+        date: new Date().toISOString(),
+      });
+    }
 
     navigation.pop();
   };
