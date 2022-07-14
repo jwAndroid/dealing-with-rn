@@ -13,12 +13,19 @@ const styles = StyleSheet.create({
 
 const FeedList = ({ logs, onScrollToBottom }) => {
   const onScroll = e => {
+    if (!onScrollToBottom) {
+      return;
+    }
+
     const { contentSize, layoutMeasurement, contentOffset } = e.nativeEvent;
 
-    const distanceFromEnd =
+    const distanceFromBottom =
       contentSize.height - layoutMeasurement.height - contentOffset.y;
 
-    if (distanceFromEnd < 72) {
+    if (
+      contentSize.height > layoutMeasurement.height &&
+      distanceFromBottom < 72
+    ) {
       onScrollToBottom(true);
     } else {
       onScrollToBottom(false);
