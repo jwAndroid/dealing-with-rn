@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
+import FeedList from '../components/FeedList';
 
 import FloatingWriteButton from '../components/FloatingWriteButton';
 import LogContext from '../context/LogContext';
@@ -15,6 +16,8 @@ const FeedsScreen = () => {
 
   return (
     <View style={styles.block}>
+      <FeedList logs={logs} />
+
       <FloatingWriteButton />
     </View>
   );

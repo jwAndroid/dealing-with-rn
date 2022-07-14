@@ -24,7 +24,7 @@ const WriteScreen = () => {
     onCreate({
       title,
       body,
-      date: new Date().toISOString,
+      date: new Date().toISOString(),
     });
 
     navigation.pop();
