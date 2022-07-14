@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import FeedList from '../components/FeedList';
 
@@ -12,13 +12,19 @@ const styles = StyleSheet.create({
 const FeedsScreen = () => {
   const { logs } = useContext(LogContext);
 
-  console.log(JSON.stringify(logs, null, 2));
+  const [hidden, setHidden] = useState(false);
+
+  const onScrollToBottom = isBottom => {
+    if (hidden !== isBottom) {
+      setHidden(isBottom);
+    }
+  };
 
   return (
     <View style={styles.block}>
-      <FeedList logs={logs} />
+      <FeedList logs={logs} onScrollToBottom={onScrollToBottom} />
 
-      <FloatingWriteButton />
+      <FloatingWriteButton hidden={hidden} />
     </View>
   );
 };

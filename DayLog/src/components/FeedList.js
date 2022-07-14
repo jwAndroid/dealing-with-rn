@@ -11,13 +11,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const FeedList = ({ logs }) => {
+const FeedList = ({ logs, onScrollToBottom }) => {
+  const onScroll = e => {
+    const { contentSize, layoutMeasurement, contentOffset } = e.nativeEvent;
+
+    const distanceFromEnd =
+      contentSize.height - layoutMeasurement.height - contentOffset.y;
+
+    if (distanceFromEnd < 72) {
+      onScrollToBottom(true);
+    } else {
+      onScrollToBottom(false);
+    }
+  };
+
   return (
     <FlatList
       data={logs}
       style={styles.block}
       renderItem={({ item }) => <FeedListItem log={item} />}
       keyExtractor={log => log.id}
+      onScroll={onScroll}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );
