@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const WriteHeader = ({ onSave }) => {
+const WriteHeader = ({ onSave, onAskRemove, isEditing }) => {
   const navigation = useNavigation();
 
   const onGoBack = () => {
@@ -43,12 +43,14 @@ const WriteHeader = ({ onSave }) => {
       </View>
 
       <View style={styles.buttons}>
-        <TransparentCircleButton
-          onPress={onGoBack}
-          name="delete-forever"
-          color="#ef5350"
-          hasMarginRight
-        />
+        {isEditing && (
+          <TransparentCircleButton
+            onPress={onAskRemove}
+            name="delete-forever"
+            color="#ef5350"
+            hasMarginRight
+          />
+        )}
 
         <TransparentCircleButton
           name="check"
