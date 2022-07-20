@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FeedList = ({ logs, onScrollToBottom }) => {
+const FeedList = ({ logs, onScrollToBottom, ListHeaderComponent }) => {
   const onScroll = e => {
     if (!onScrollToBottom) {
       return;
@@ -40,6 +40,7 @@ const FeedList = ({ logs, onScrollToBottom }) => {
       keyExtractor={log => log.id}
       onScroll={onScroll}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 };
