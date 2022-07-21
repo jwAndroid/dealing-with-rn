@@ -22,6 +22,7 @@ const WriteScreen = ({ route }) => {
 
   const [title, setTtitle] = useState(log?.title ?? '');
   const [body, setBody] = useState(log?.body ?? '');
+  const [date, setDate] = useState(log ? new Date(log.date) : new Date());
 
   const navigation = useNavigation();
 
@@ -47,17 +48,17 @@ const WriteScreen = ({ route }) => {
     if (log) {
       onModify({
         id: log.id,
-        date: log.date,
+        date: date.toISOString(),
         title,
         body,
       });
       // log 가 값이 존재할때 === 수정
-      // log 가 존재하지 않을때 === 새로 만드는 객체
+      // log 가 존재하지 않을때 === 게시글 생성
     } else {
       onCreate({
         title,
         body,
-        date: new Date().toISOString(),
+        date: date.toISOString(),
       });
     }
 
@@ -73,6 +74,8 @@ const WriteScreen = ({ route }) => {
           onSave={onSave}
           onAskRemove={onAskRemove}
           isEditing={!!log}
+          date={date}
+          onChangeDate={setDate}
         />
 
         <WriteEditor
