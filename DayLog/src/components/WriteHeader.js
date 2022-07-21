@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { format } from 'date-fns';
@@ -35,6 +35,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const initialState = { mode: 'date', visible: false };
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'open':
+      return { mode: action.mode, visible: true };
+    case 'close':
+      return { ...state, visible: false }; // state 에 이미 들어가 있기때문에 스프레드 해준다.
+    default:
+      throw new Error('Error');
+  }
+};
+
 const WriteHeader = ({
   onSave,
   onAskRemove,
@@ -44,30 +57,20 @@ const WriteHeader = ({
 }) => {
   const navigation = useNavigation();
 
-  const [mode, setMode] = useState('date');
-  const [visible, setVisible] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const open = mode => dispatch({ type: 'open', mode });
+
+  const close = () => dispatch({ type: 'close' });
 
   const onGoBack = () => {
     navigation.pop();
   };
 
-  const onPressDate = () => {
-    setMode('date');
-    setVisible(true);
-  };
-
-  const onPressTime = () => {
-    setMode('time');
-    setVisible(true);
-  };
-
   const onConfirm = selectedDate => {
-    setVisible(false);
-    onChangeDate(selectedDate);
-  };
+    close();
 
-  const onCancel = () => {
-    setVisible(false);
+    onChangeDate(selectedDate);
   };
 
   return (
@@ -98,7 +101,7 @@ const WriteHeader = ({
       </View>
 
       <View style={styles.center}>
-        <Pressable onPress={onPressDate}>
+        <Pressable onPress={() => open('date')}>
           <Text>
             {format(new Date(date), 'PPP', {
               locale: ko,
@@ -108,16 +111,16 @@ const WriteHeader = ({
 
         <View style={styles.separator} />
 
-        <Pressable onPress={onPressTime}>
+        <Pressable onPress={() => open('time')}>
           <Text>{format(new Date(date), 'p', { locale: ko })}</Text>
         </Pressable>
       </View>
 
       <DateTimePickerModal
-        isVisible={visible}
-        mode={mode}
+        isVisible={state.visible}
+        mode={state.mode}
         onConfirm={onConfirm}
-        onCancel={onCancel}
+        onCancel={close}
         date={date}
       />
     </View>
