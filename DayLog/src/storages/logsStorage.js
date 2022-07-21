@@ -14,9 +14,9 @@ const logsStorage = {
   },
   async set(data) {
     try {
-      await AsyncStorage.set(key, JSON.stringify(data));
+      await AsyncStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
-      throw new Error('Failed to load logs');
+      throw new Error('Failed to save logs');
     }
   },
 };
