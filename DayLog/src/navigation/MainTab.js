@@ -15,6 +15,7 @@ const MainTab = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#009688',
+        tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
         name="Feeds"
