@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SignInForm from '../components/SignInForm';
 import SignButtons from '../components/SignButtons';
+import { signIn, signUp } from '../firebase/authentication';
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: {
@@ -41,6 +43,8 @@ const SignInScreen = ({ navigation, route }) => {
     confirmPassword: '',
   });
 
+  const [loading, setLoading] = useState();
+
   const createChangeTextHandler = ({ name, text }) => {
     setForm({ ...form, [name]: text });
   };
@@ -49,9 +53,26 @@ const SignInScreen = ({ navigation, route }) => {
   //   setForm({ ...form, [name]: value });
   // };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     Keyboard.dismiss();
-    console.log(form);
+
+    const { email, password } = form;
+
+    const info = { email, password };
+
+    setLoading(true);
+
+    try {
+      const { user } = isSignUp ? await signUp(info) : await signIn(info);
+
+      console.log(user);
+    } catch (e) {
+      Alert.alert('실패');
+
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,7 +90,11 @@ const SignInScreen = ({ navigation, route }) => {
             createChangeTextHandler={createChangeTextHandler}
           />
 
-          <SignButtons isSignUp={isSignUp} onSubmit={onSubmit} />
+          <SignButtons
+            isSignUp={isSignUp}
+            onSubmit={onSubmit}
+            loading={loading}
+          />
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>

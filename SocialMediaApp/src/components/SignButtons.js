@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignButtons = ({ isSignUp, onSubmit }) => {
+const SignButtons = ({ isSignUp, onSubmit, loading }) => {
   const navigation = useNavigation();
 
   const primaryTitle = isSignUp ? '회원가입' : '로그인';
@@ -29,6 +29,14 @@ const SignButtons = ({ isSignUp, onSubmit }) => {
       navigation.push('SignIn', { isSignUp: true });
     }
   };
+
+  if (loading) {
+    return (
+      <View style={styles.spinnerWrapper}>
+        <ActivityIndicator size={32} color="#6200ee" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.buttons}>
