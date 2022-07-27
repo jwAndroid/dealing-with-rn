@@ -15,20 +15,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const BorderedInput = ({
-  hasMarginBottom,
-  onChangeText,
-  value,
-  placeholder,
-}) => {
+const BorderedInput = ({ hasMarginBottom, ...rest }, ref) => {
   return (
     <TextInput
+      ref={ref}
       style={[styles.input, hasMarginBottom && styles.margin]}
-      onChangeText={onChangeText}
-      value={value}
-      placeholder={placeholder}
+      {...rest}
     />
   );
 };
 
-export default BorderedInput;
+export default React.forwardRef(BorderedInput);

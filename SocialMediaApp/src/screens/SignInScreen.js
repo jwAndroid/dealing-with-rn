@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -12,7 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BorderedInput from '../components/BorderedInput';
 import CustomButton from '../components/CustomButton';
-import CoustomButton from '../components/CustomButton';
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: {
@@ -46,7 +44,7 @@ const SignInScreen = ({ navigation, route }) => {
     confirmPassword: '',
   });
 
-  const onChangeText = ({ name, text }) => {
+  const createChangeTextHandler = ({ name, text }) => {
     setForm({ ...form, [name]: text });
   };
 
@@ -58,6 +56,9 @@ const SignInScreen = ({ navigation, route }) => {
     Keyboard.dismiss();
     console.log(form);
   };
+
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
 
   return (
     <KeyboardAvoidingView
@@ -71,13 +72,34 @@ const SignInScreen = ({ navigation, route }) => {
             hasMarginBottom
             placeholder="이메일"
             value={form.email}
-            onChangeText={text => onChangeText({ name: 'email', text })}
+            onChangeText={text =>
+              createChangeTextHandler({ name: 'email', text })
+            }
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoCompleateType="email"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current.focus()}
           />
+
           <BorderedInput
             placeholder="비밀번호"
+            secureTextEntry
             hasMarginBottom={isSignUp}
             value={form.password}
-            onChangeText={text => onChangeText({ name: 'password', text })}
+            onChangeText={text =>
+              createChangeTextHandler({ name: 'password', text })
+            }
+            ref={passwordRef}
+            returnKeyType={isSignUp ? 'next' : 'done'}
+            onSubmitEditing={() => {
+              if (isSignUp) {
+                confirmPasswordRef.current.focus();
+              } else {
+                onSubmit();
+              }
+            }}
           />
 
           {isSignUp && (
@@ -85,7 +107,7 @@ const SignInScreen = ({ navigation, route }) => {
               placeholder="비밀번호 확인"
               value={form.confirmPassword}
               onChangeText={text =>
-                onChangeText({ name: 'confirmPassword', text })
+                createChangeTextHandler({ name: 'confirmPassword', text })
               }
               // onChangeText={createChangeTextHandler('confirmPassword')}
             />
