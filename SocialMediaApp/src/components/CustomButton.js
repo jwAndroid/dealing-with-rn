@@ -25,14 +25,16 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   secondaryText: {
-    color: '#6200ee',
+    color: '#fff',
   },
   margin: {
     marginBottom: 8,
   },
 });
 
-const CustomButton = ({ onPress, title, hasMarginBottom }) => {
+const CustomButton = ({ onPress, title, hasMarginBottom, theme }) => {
+  const isPrimary = theme === 'primary';
+
   return (
     <View style={[styles.overflow, hasMarginBottom && styles.margin]}>
       <Pressable
@@ -42,10 +44,20 @@ const CustomButton = ({ onPress, title, hasMarginBottom }) => {
           Platform.OS === 'ios' && pressed && { opacity: 0.5 },
         ]}
         android_ripple={{ color: '#fff' }}>
-        <Text style={styles.text}>{title}</Text>
+        <Text
+          style={[
+            styles.text,
+            isPrimary ? styles.primaryText : styles.secondaryText,
+          ]}>
+          {title}
+        </Text>
       </Pressable>
     </View>
   );
+};
+
+CustomButton.defaultProps = {
+  theme: 'primary',
 };
 
 export default CustomButton;

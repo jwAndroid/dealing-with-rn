@@ -37,21 +37,98 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation, route }) => {
+  const { isSignUp } = route.params || {};
+
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const onChangeText = ({ name, text }) => {
+    setForm({ ...form, [name]: text });
+  };
+
+  // const createChangeTextHandler = name => value => {
+  //   setForm({ ...form, [name]: value });
+  // };
+
+  const onSubmit = () => {
+    Keyboard.dismiss();
+    console.log(form);
+  };
+
   return (
-    <SafeAreaView style={styles.fullscreen}>
-      <Text style={styles.text}>SocialMediaApp</Text>
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.select({ ios: 'padding' })}>
+      <SafeAreaView style={styles.fullscreen}>
+        <Text style={styles.text}>SocialMediaApp</Text>
 
-      <View style={styles.form}>
-        <BorderedInput hasMarginBottom />
-        <BorderedInput />
+        <View style={styles.form}>
+          <BorderedInput
+            hasMarginBottom
+            placeholder="이메일"
+            value={form.email}
+            onChangeText={text => onChangeText({ name: 'email', text })}
+          />
+          <BorderedInput
+            placeholder="비밀번호"
+            hasMarginBottom={isSignUp}
+            value={form.password}
+            onChangeText={text => onChangeText({ name: 'password', text })}
+          />
 
-        <View style={styles.buttons}>
-          <CustomButton title="로그인" hasMarginBottom />
-          <CustomButton title="회원가입" />
+          {isSignUp && (
+            <BorderedInput
+              placeholder="비밀번호 확인"
+              value={form.confirmPassword}
+              onChangeText={text =>
+                onChangeText({ name: 'confirmPassword', text })
+              }
+              // onChangeText={createChangeTextHandler('confirmPassword')}
+            />
+          )}
+
+          <View style={styles.buttons}>
+            {isSignUp ? (
+              <>
+                <CustomButton
+                  title="회원가입"
+                  hasMarginBottom
+                  onPress={onSubmit}
+                />
+
+                <CustomButton
+                  title="로그인"
+                  theme="secondary"
+                  onPress={() => {
+                    navigation.goBack();
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <CustomButton
+                  title="로그인"
+                  hasMarginBottom
+                  onPress={onSubmit}
+                />
+
+                <CustomButton
+                  title="회원가입"
+                  theme="secondary"
+                  onPress={() => {
+                    navigation.push('SignIn', { isSignUp: true });
+                  }}
+                />
+              </>
+            )}
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

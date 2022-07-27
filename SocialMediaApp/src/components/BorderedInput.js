@@ -15,8 +15,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const BorderedInput = ({ hasMarginBottom }) => {
-  return <TextInput style={[styles.input, hasMarginBottom && styles.margin]} />;
+const BorderedInput = ({
+  hasMarginBottom,
+  onChangeText,
+  value,
+  placeholder,
+}) => {
+  return (
+    <TextInput
+      style={[styles.input, hasMarginBottom && styles.margin]}
+      onChangeText={onChangeText}
+      value={value}
+      placeholder={placeholder}
+    />
+  );
 };
 
 export default BorderedInput;
