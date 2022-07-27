@@ -43,7 +43,9 @@ const SignInForm = ({ isSignUp, onSubmit, form, createChangeTextHandler }) => {
       {isSignUp && (
         <BorderedInput
           placeholder="비밀번호 확인"
+          secureTextEntry
           value={form.confirmPassword}
+          returnKeyType="done"
           onChangeText={text =>
             createChangeTextHandler({ name: 'confirmPassword', text })
           }
