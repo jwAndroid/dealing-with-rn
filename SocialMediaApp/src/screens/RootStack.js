@@ -3,23 +3,39 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from './SignInScreen';
 import WelcomScreen from './WelcomScreen';
+import { useUserContext } from '../contexts/UserContext';
+import MainTab from './MainTab';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
+  const { user } = useUserContext();
+
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ headerShown: false }}
-      />
+      {user ? (
+        <>
+          <Stack.Screen
+            name="MainTab"
+            component={MainTab}
+            options={{ headerShown: false }}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="SignIn"
+            component={SignInScreen}
+            options={{ headerShown: false }}
+          />
 
-      <Stack.Screen
-        name="Welcome"
-        component={WelcomScreen}
-        options={{ headerShown: false }}
-      />
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
     </Stack.Navigator>
   );
 };

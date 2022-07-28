@@ -14,6 +14,7 @@ import SignInForm from '../components/SignInForm';
 import SignButtons from '../components/SignButtons';
 import { signIn, signUp } from '../firebase/authentication';
 import { getUser } from '../firebase/users';
+import { useUserContext } from '../contexts/UserContext';
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: {
@@ -43,8 +44,9 @@ const SignInScreen = ({ navigation, route }) => {
     password: '',
     confirmPassword: '',
   });
-
   const [loading, setLoading] = useState();
+
+  const { setUser } = useUserContext();
 
   const createChangeTextHandler = ({ name, text }) => {
     setForm({ ...form, [name]: text });
@@ -72,7 +74,7 @@ const SignInScreen = ({ navigation, route }) => {
       if (!profile) {
         navigation.navigate('Welcome', { uid: user.uid });
       } else {
-        console.log('exists user go main screen');
+        setUser(profile);
       }
     } catch (e) {
       const messages = {
