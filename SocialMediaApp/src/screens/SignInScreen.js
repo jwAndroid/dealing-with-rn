@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SignInForm from '../components/SignInForm';
 import SignButtons from '../components/SignButtons';
 import { signIn, signUp } from '../firebase/authentication';
+import { getUser } from '../firebase/users';
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: {
@@ -49,10 +50,6 @@ const SignInScreen = ({ navigation, route }) => {
     setForm({ ...form, [name]: text });
   };
 
-  // const createChangeTextHandler = name => value => {
-  //   setForm({ ...form, [name]: value });
-  // };
-
   const onSubmit = async () => {
     Keyboard.dismiss();
 
@@ -60,6 +57,7 @@ const SignInScreen = ({ navigation, route }) => {
 
     if (isSignUp && password !== confirmPassword) {
       Alert.alert('실패', '비밀번호가 일치하지 않습니다.');
+      return;
     }
 
     setLoading(true);
@@ -69,7 +67,13 @@ const SignInScreen = ({ navigation, route }) => {
     try {
       const { user } = isSignUp ? await signUp(info) : await signIn(info);
 
-      console.log(user);
+      const profile = await getUser(user.uid);
+
+      if (!profile) {
+        navigation.navigate('Welcome', { uid: user.uid });
+      } else {
+        console.log('exists user go main screen');
+      }
     } catch (e) {
       const messages = {
         'auth/email-already-in-use': '이미 가입된 이메일입니다.',

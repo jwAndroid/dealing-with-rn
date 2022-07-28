@@ -16,7 +16,7 @@ const RootStack = () => {
       />
 
       <Stack.Screen
-        name="Welcom"
+        name="Welcome"
         component={WelcomScreen}
         options={{ headerShown: false }}
       />
