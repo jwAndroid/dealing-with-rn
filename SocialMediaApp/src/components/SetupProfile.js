@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { createUser } from '../firebase/users';
@@ -7,6 +7,7 @@ import { signOut } from '../firebase/authentication';
 import BorderedInput from './BorderedInput';
 import CustomButton from './CustomButton';
 import { useUserContext } from '../contexts/UserContext';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const styles = StyleSheet.create({
   block: {
@@ -63,9 +64,23 @@ const SetupProfile = () => {
     navigation.goBack();
   };
 
+  const onSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxWidth: 512,
+        maxHeight: 512,
+        includeBase64: Platform.OS === 'android',
+      },
+      res => {
+        console.log(res);
+      },
+    );
+  };
+
   return (
     <View style={styles.block}>
-      <View style={styles.circle} />
+      <Pressable style={styles.circle} onPress={onSelectImage} />
 
       <View style={styles.form}>
         <BorderedInput
