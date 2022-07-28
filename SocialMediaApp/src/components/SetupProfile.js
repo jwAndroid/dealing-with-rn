@@ -64,7 +64,7 @@ const SetupProfile = () => {
         <BorderedInput
           placeholder="닉네임"
           value={displayName}
-          onChangeText={setDisplayName}
+          onChangeText={text => setDisplayName(text)}
           onSubmitEditing={onSubmit}
           returnKeyType="next"
         />
