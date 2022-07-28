@@ -72,8 +72,8 @@ const SetupProfile = () => {
         maxHeight: 512,
         includeBase64: Platform.OS === 'android',
       },
-      res => {
-        console.log(res);
+      response => {
+        console.log(response);
       },
     );
   };
