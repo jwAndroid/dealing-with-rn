@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import storage from '@react-native-firebase/storage';
 
 import { createUser } from '../firebase/users';
 import { signOut } from '../firebase/authentication';
@@ -37,6 +45,8 @@ const styles = StyleSheet.create({
 
 const SetupProfile = () => {
   const [displayName, setDisplayName] = useState('');
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
@@ -46,11 +56,33 @@ const SetupProfile = () => {
 
   const { uid } = params || {};
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    setLoading(true);
+
+    let photoURL = null;
+
+    if (response) {
+      const asset = response.assets[0];
+
+      const extension = asset.fileName.split('.').pop();
+
+      const reference = storage().ref(`/profile/${uid}.${extension}`);
+
+      if (Platform.OS === 'android') {
+        await reference.putString(asset.base64, 'base64', {
+          contentType: asset.type,
+        });
+      } else {
+        await reference.putFile(asset.uri);
+      }
+
+      photoURL = response ? await reference.getDownloadURL() : null;
+    }
+
     const user = {
       id: uid,
       displayName,
-      photoURL: null,
+      photoURL,
     };
 
     createUser(user);
@@ -72,15 +104,26 @@ const SetupProfile = () => {
         maxHeight: 512,
         includeBase64: Platform.OS === 'android',
       },
-      response => {
-        console.log(response);
+      res => {
+        if (res.didCancel) {
+          return;
+        }
+
+        console.log(res);
+
+        setResponse(res);
       },
     );
   };
 
   return (
     <View style={styles.block}>
-      <Pressable style={styles.circle} onPress={onSelectImage} />
+      <Pressable style={styles.circle} onPress={onSelectImage}>
+        <Image
+          style={styles.circle}
+          source={{ uri: response?.assets[0]?.uri }}
+        />
+      </Pressable>
 
       <View style={styles.form}>
         <BorderedInput
@@ -91,11 +134,14 @@ const SetupProfile = () => {
           returnKeyType="next"
         />
 
-        <View style={styles.buttons}>
-          <CustomButton title="다음" onPress={onSubmit} hasMarginBottom />
-
-          <CustomButton title="취소" onPress={onCancel} theme="secondary" />
-        </View>
+        {loading ? (
+          <ActivityIndicator size={32} color="#6200ee" style={styles.spinner} />
+        ) : (
+          <View style={styles.buttons}>
+            <CustomButton title="다음" onPress={onSubmit} hasMarginBottom />
+            <CustomButton title="취소" onPress={onCancel} theme="secondary" />
+          </View>
+        )}
       </View>
     </View>
   );
