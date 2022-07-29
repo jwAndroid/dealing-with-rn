@@ -14,13 +14,11 @@ const RootStack = () => {
   return (
     <Stack.Navigator>
       {user ? (
-        <>
-          <Stack.Screen
-            name="MainTab"
-            component={MainTab}
-            options={{ headerShown: false }}
-          />
-        </>
+        <Stack.Screen
+          name="MainTab"
+          component={MainTab}
+          options={{ headerShown: false }}
+        />
       ) : (
         <>
           <Stack.Screen
