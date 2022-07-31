@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from './SignInScreen';
 import WelcomScreen from './WelcomScreen';
+import UploadScreen from './UploadScreen';
 import { useUserContext } from '../contexts/UserContext';
 import MainTab from './MainTab';
 import { subscribeAuth } from '../firebase/authentication';
@@ -34,11 +35,19 @@ const RootStack = () => {
   return (
     <Stack.Navigator>
       {user ? (
-        <Stack.Screen
-          name="MainTab"
-          component={MainTab}
-          options={{ headerShown: false }}
-        />
+        <>
+          <Stack.Screen
+            name="MainTab"
+            component={MainTab}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Upload"
+            component={UploadScreen}
+            options={{ headerShown: false }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen
