@@ -51,7 +51,7 @@ const CameraButton = () => {
 
   return (
     <View style={[styles.wrapper, { bottom }]}>
-      <Pressable android_ripple={{ color: '#fff' }}>
+      <Pressable android_ripple={{ color: '#fff' }} style={styles.circle}>
         <Icon name="camera-alt" color="white" size={24} />
       </Pressable>
     </View>
