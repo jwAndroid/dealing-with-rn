@@ -8,11 +8,13 @@ import {
   Keyboard,
   useWindowDimensions,
   Platform,
-  KeyboardAvoidingView,
-  Image,
 } from 'react-native';
+import storage from '@react-native-firebase/storage';
+import { v4 } from 'uuid';
 
 import IconRightButton from '../components/IconRightButton';
+import { useUserContext } from '../contexts/UserContext';
+import { createPost } from '../firebase/posts';
 
 const styles = StyleSheet.create({
   block: {
@@ -28,6 +30,8 @@ const styles = StyleSheet.create({
   },
 });
 const UploadScreen = () => {
+  const { user } = useUserContext();
+
   const route = useRoute();
   const { res } = route.params || {};
 
@@ -40,7 +44,25 @@ const UploadScreen = () => {
 
   const navigation = useNavigation();
 
-  const onSubmit = useCallback(() => {}, []);
+  const onSubmit = useCallback(async () => {
+    navigation.pop();
+    const asset = res.assets[0];
+
+    const extension = asset.fileName.split('.').pop();
+    const reference = storage().ref(`/photo/${user.id}/${v4()}.${extension}`);
+
+    if (Platform.OS === 'android') {
+      await reference.putString(asset.base64, 'base64', {
+        contentType: asset.type,
+      });
+    } else {
+      await reference.putFile(asset.uri);
+    }
+
+    const photoURL = await reference.getDownloadURL();
+
+    await createPost({ description, photoURL, user });
+  }, [navigation, res.assets, description, user]);
 
   useEffect(() => {
     navigation.setOptions({
