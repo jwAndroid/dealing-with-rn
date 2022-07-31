@@ -8,6 +8,7 @@ import {
   Keyboard,
   useWindowDimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import storage from '@react-native-firebase/storage';
 import { v4 } from 'uuid';
@@ -96,7 +97,12 @@ const UploadScreen = () => {
   }, [animation, isKeyboardOpen, width]);
 
   return (
-    <View style={styles.block}>
+    <KeyboardAvoidingView
+      behavior={Platform.select({ ios: 'height' })}
+      style={styles.block}
+      keyboardVerticalOffset={Platform.select({
+        ios: 180,
+      })}>
       <Animated.Image
         source={{ uri: res?.assets[0]?.uri }}
         style={[styles.image, { height: animation }]}
@@ -111,7 +117,7 @@ const UploadScreen = () => {
         placeholder="이 사진에 대한 설명을 입력하세요..."
         textAlignVertical="top"
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
