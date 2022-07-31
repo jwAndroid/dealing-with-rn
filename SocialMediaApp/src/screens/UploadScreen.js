@@ -34,6 +34,7 @@ const UploadScreen = () => {
   const animation = useRef(new Animated.Value(width)).current;
 
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     const didShow = Keyboard.addListener('keyboardDidShow', () =>
@@ -69,6 +70,8 @@ const UploadScreen = () => {
       />
 
       <TextInput
+        value={description}
+        onChangeText={text => setDescription(text)}
         style={styles.input}
         multiline
         placeholder="이 사진에 대한 설명을 입력하세요..."
