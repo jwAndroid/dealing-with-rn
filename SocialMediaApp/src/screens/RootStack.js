@@ -42,11 +42,7 @@ const RootStack = () => {
             options={{ headerShown: false }}
           />
 
-          <Stack.Screen
-            name="Upload"
-            component={UploadScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="Upload" component={UploadScreen} />
         </>
       ) : (
         <>

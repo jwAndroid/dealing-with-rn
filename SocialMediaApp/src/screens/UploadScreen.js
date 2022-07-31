@@ -1,5 +1,5 @@
-import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useRef, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -11,6 +11,8 @@ import {
   KeyboardAvoidingView,
   Image,
 } from 'react-native';
+
+import IconRightButton from '../components/IconRightButton';
 
 const styles = StyleSheet.create({
   block: {
@@ -35,6 +37,16 @@ const UploadScreen = () => {
 
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [description, setDescription] = useState('');
+
+  const navigation = useNavigation();
+
+  const onSubmit = useCallback(() => {}, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <IconRightButton onPress={onSubmit} name="send" />,
+    });
+  }, [navigation, onSubmit]);
 
   useEffect(() => {
     const didShow = Keyboard.addListener('keyboardDidShow', () =>
