@@ -1,8 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+} from 'react-native';
 
 import PostCard from '../components/PostCard';
-import { getOlderPosts, getPosts, PAGE_SIZE } from '../firebase/posts';
+import {
+  getNewerPosts,
+  getOlderPosts,
+  getPosts,
+  PAGE_SIZE,
+} from '../firebase/posts';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,10 +26,29 @@ const styles = StyleSheet.create({
 function FeedScreen() {
   const [posts, setPosts] = useState(null);
   const [noMorePost, setNoMorePost] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getPosts().then(setPosts);
   }, []);
+
+  const onRefresh = async () => {
+    if (!posts || posts.length === 0 || refreshing) {
+      return;
+    }
+
+    const firstPost = posts[0];
+    setRefreshing(true);
+
+    const newerPosts = await getNewerPosts(firstPost.id);
+    setRefreshing(false);
+
+    if (newerPosts.length === 0) {
+      return;
+    }
+
+    setPosts(newerPosts.concat(posts));
+  };
 
   const onLoadMore = async () => {
     if (noMorePost || !posts || posts.length < PAGE_SIZE) {
@@ -35,7 +64,6 @@ function FeedScreen() {
     }
 
     setPosts(posts.concat(olderPosts));
-    // setPosts([...posts, ...olderPosts]);
   };
 
   const renderItem = useCallback(({ item }) => {
@@ -62,6 +90,9 @@ function FeedScreen() {
         !noMorePost && (
           <ActivityIndicator style={styles.spinner} size={32} color="#6200ee" />
         )
+      }
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
       }
     />
   );
