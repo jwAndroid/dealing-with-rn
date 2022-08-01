@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Image,
   Platform,
   Pressable,
   StyleSheet,
@@ -16,6 +15,7 @@ import BorderedInput from './BorderedInput';
 import CustomButton from './CustomButton';
 import { useUserContext } from '../contexts/UserContext';
 import { launchImageLibrary } from 'react-native-image-picker';
+import Avatar from './Avatar';
 
 const styles = StyleSheet.create({
   block: {
@@ -23,12 +23,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     paddingHorizontal: 16,
     width: '100%',
-  },
-  circle: {
-    backgroundColor: '#cdcdcd',
-    borderRadius: 64,
-    width: 128,
-    height: 128,
   },
   form: {
     marginTop: 16,
@@ -118,11 +112,8 @@ const SetupProfile = () => {
 
   return (
     <View style={styles.block}>
-      <Pressable style={styles.circle} onPress={onSelectImage}>
-        <Image
-          style={styles.circle}
-          source={{ uri: response?.assets[0]?.uri }}
-        />
+      <Pressable onPress={onSelectImage}>
+        <Avatar source={{ uri: response.uri }} size={128} />
       </Pressable>
 
       <View style={styles.form}>

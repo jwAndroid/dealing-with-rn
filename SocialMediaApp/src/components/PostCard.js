@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, Text, Image, Pressable } from 'react-native';
+import Avatar from './Avatar';
 
 const styles = StyleSheet.create({
   block: {
@@ -49,13 +50,15 @@ function PostCard({ user, photoURL, description, createdAt, id }) {
     [createdAt],
   );
 
-  const onOpenProfile = () => {};
+  const onOpenProfile = () => {
+    console.log('open profile');
+  };
 
   return (
     <View style={styles.block}>
       <View style={[styles.head, styles.paddingBlock]}>
         <Pressable style={styles.profile} onPress={onOpenProfile}>
-          <Image source={{ uri: user.photoURL }} />
+          <Avatar source={{ uri: user.photoURL }} />
 
           <Text style={styles.displayName}>{user.displayName}</Text>
         </Pressable>
