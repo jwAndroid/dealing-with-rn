@@ -11,6 +11,7 @@ import {
 import { getUser } from '../firebase/users';
 import { getPosts } from '../firebase/posts';
 import Avatar from './Avatar';
+import PostGridItem from './PostGridItem';
 
 const styles = StyleSheet.create({
   spinner: {
@@ -58,6 +59,10 @@ function Profile({ userId }) {
 
   return (
     <FlatList
+      data={posts}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+      numColumns={3}
       style={styles.block}
       ListHeaderComponent={
         <View style={styles.userInfo}>
@@ -69,5 +74,7 @@ function Profile({ userId }) {
     />
   );
 }
+
+const renderItem = ({ item }) => <PostGridItem post={item} />;
 
 export default Profile;

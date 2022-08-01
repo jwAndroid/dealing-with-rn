@@ -6,7 +6,12 @@ function Avatar({ source, size }) {
     <Image
       source={source}
       resizeMode="cover"
-      style={{ width: size, height: size, borderRadius: size / 2 }}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        backgroundColor: 'gray',
+      }}
     />
   );
 }
