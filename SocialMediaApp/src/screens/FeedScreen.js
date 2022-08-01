@@ -1,15 +1,42 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
 import PostCard from '../components/PostCard';
-import { getPosts } from '../firebase/posts';
+import { getOlderPosts, getPosts, PAGE_SIZE } from '../firebase/posts';
+
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 48,
+  },
+  spinner: {
+    height: 64,
+  },
+});
 
 function FeedScreen() {
   const [posts, setPosts] = useState(null);
+  const [noMorePost, setNoMorePost] = useState(false);
 
   useEffect(() => {
     getPosts().then(setPosts);
   }, []);
+
+  const onLoadMore = async () => {
+    if (noMorePost || !posts || posts.length < PAGE_SIZE) {
+      return;
+    }
+
+    const lastPost = posts[posts.length - 1];
+
+    const olderPosts = await getOlderPosts(lastPost.id);
+
+    if (olderPosts.length < PAGE_SIZE) {
+      setNoMorePost(true);
+    }
+
+    setPosts(posts.concat(olderPosts));
+    // setPosts([...posts, ...olderPosts]);
+  };
 
   const renderItem = useCallback(({ item }) => {
     return (
@@ -28,6 +55,14 @@ function FeedScreen() {
       data={posts}
       renderItem={renderItem}
       keyExtractor={item => item.id}
+      contentContainerStyle={styles.container}
+      onEndReached={onLoadMore}
+      onEndReachedThreshold={0.75}
+      ListFooterComponent={
+        !noMorePost && (
+          <ActivityIndicator style={styles.spinner} size={32} color="#6200ee" />
+        )
+      }
     />
   );
 }
