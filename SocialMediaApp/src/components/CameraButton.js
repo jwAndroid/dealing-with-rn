@@ -98,9 +98,9 @@ const CameraButton = () => {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          console.log('카메라 촬영');
+          onLaunchCamera();
         } else if (buttonIndex === 1) {
-          console.log('사진 선택');
+          onLaunchImageLibrary();
         }
       },
     );
