@@ -18,7 +18,7 @@ const Empty = () => {
     <View style={styles.block}>
       <Image source={require('../assets/images/circle.png')} />
 
-      <Text style={styles.description}>야호~! 할 일이 없습니다</Text>
+      <Text style={styles.description}>할 일이 없습니다</Text>
     </View>
   );
 };
