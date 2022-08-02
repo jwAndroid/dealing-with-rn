@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -7,12 +7,7 @@ import {
 } from 'react-native';
 
 import PostCard from '../components/PostCard';
-import {
-  getNewerPosts,
-  getOlderPosts,
-  getPosts,
-  PAGE_SIZE,
-} from '../firebase/posts';
+import usePosts from '../hooks/usePosts';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,47 +19,7 @@ const styles = StyleSheet.create({
 });
 
 function FeedScreen() {
-  const [posts, setPosts] = useState(null);
-  const [noMorePost, setNoMorePost] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    getPosts().then(setPosts);
-  }, []);
-
-  const onRefresh = async () => {
-    if (!posts || posts.length === 0 || refreshing) {
-      return;
-    }
-
-    const firstPost = posts[0];
-    setRefreshing(true);
-
-    const newerPosts = await getNewerPosts(firstPost.id);
-    setRefreshing(false);
-
-    if (newerPosts.length === 0) {
-      return;
-    }
-
-    setPosts(newerPosts.concat(posts));
-  };
-
-  const onLoadMore = async () => {
-    if (noMorePost || !posts || posts.length < PAGE_SIZE) {
-      return;
-    }
-
-    const lastPost = posts[posts.length - 1];
-
-    const olderPosts = await getOlderPosts(lastPost.id);
-
-    if (olderPosts.length < PAGE_SIZE) {
-      setNoMorePost(true);
-    }
-
-    setPosts(posts.concat(olderPosts));
-  };
+  const { posts, noMorePost, refreshing, onLoadMore, onRefresh } = usePosts();
 
   const renderItem = useCallback(({ item }) => {
     return (

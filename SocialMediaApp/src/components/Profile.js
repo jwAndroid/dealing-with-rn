@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 import { getUser } from '../firebase/users';
-import { getPosts } from '../firebase/posts';
 import Avatar from './Avatar';
 import PostGridItem from './PostGridItem';
+import usePosts from '../hooks/usePosts';
 
 const styles = StyleSheet.create({
   spinner: {
@@ -43,13 +44,15 @@ const styles = StyleSheet.create({
 
 function Profile({ userId }) {
   const [user, setUser] = useState(null);
-  const [posts, setPosts] = useState(null);
+  const { posts, noMorePost, refreshing, onLoadMore, onRefresh } = usePosts();
 
   useEffect(() => {
     getUser(userId).then(setUser);
-
-    getPosts(userId).then(setPosts);
   }, [userId]);
+
+  const renderItem = useCallback(({ item }) => {
+    return <PostGridItem post={item} />;
+  }, []);
 
   if (!user || !posts) {
     return (
@@ -71,10 +74,22 @@ function Profile({ userId }) {
           <Text style={styles.username}>{user.displayName}</Text>
         </View>
       }
+      onEndReached={onLoadMore}
+      onEndReachedThreshold={0.25}
+      ListFooterComponent={
+        !noMorePost && (
+          <ActivityIndicator
+            style={styles.bottomSpinner}
+            size={32}
+            color="#6200ee"
+          />
+        )
+      }
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }
     />
   );
 }
-
-const renderItem = ({ item }) => <PostGridItem post={item} />;
 
 export default Profile;

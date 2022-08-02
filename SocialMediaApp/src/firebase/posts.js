@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const PAGE_SIZE = 12;
+export const PAGE_SIZE = 3;
 
 const postsCollection = firestore().collection('posts');
 
