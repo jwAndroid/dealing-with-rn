@@ -2,12 +2,11 @@
  * @format
  */
 
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 import { collection, addDoc, doc, getDoc, getDocs } from 'firebase/firestore';
 
 import { db } from './src/config';
-import { async } from '@firebase/util';
 
 const App = () => {
   const onAdd = useCallback(async () => {
