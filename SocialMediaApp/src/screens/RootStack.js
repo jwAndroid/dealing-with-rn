@@ -9,6 +9,7 @@ import MainTab from './MainTab';
 import { subscribeAuth } from '../firebase/authentication';
 import { getUser } from '../firebase/users';
 import ModifyScreen from './ModifyScreen';
+import SettingScreen from './SettingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,11 @@ const RootStack = () => {
             name="Modify"
             component={ModifyScreen}
             options={{ title: '설명 수정', headerBackTitle: '뒤로가기' }}
+          />
+          <Stack.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{ title: '설정', headerBackTitle: '뒤로가기' }}
           />
         </>
       ) : (
