@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import PostCard from '../components/PostCard';
+import events from '../eventBus/events';
 import usePosts from '../hooks/usePosts';
 
 const styles = StyleSheet.create({
@@ -20,6 +21,14 @@ const styles = StyleSheet.create({
 
 function FeedScreen() {
   const { posts, noMorePost, refreshing, onLoadMore, onRefresh } = usePosts();
+
+  useEffect(() => {
+    events.addListener('refresh', onRefresh);
+
+    return () => {
+      events.removeListener('refresh', onRefresh);
+    };
+  }, [onRefresh]);
 
   const renderItem = useCallback(({ item }) => {
     return (

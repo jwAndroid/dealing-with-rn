@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   getNewerPosts,
   getOlderPosts,
@@ -37,7 +37,7 @@ export default function usePosts(userId) {
     setPosts(posts.concat(olderPosts));
   };
 
-  const onRefresh = async () => {
+  const onRefresh = useCallback(async () => {
     if (!posts || posts.length === 0 || refreshing) {
       return;
     }
@@ -53,7 +53,7 @@ export default function usePosts(userId) {
     }
 
     setPosts(newerPosts.concat(posts));
-  };
+  }, [posts, refreshing, userId]);
 
   return {
     posts,

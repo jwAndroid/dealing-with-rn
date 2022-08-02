@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   TextInput,
-  View,
   Animated,
   Keyboard,
   useWindowDimensions,
@@ -16,6 +15,7 @@ import { v4 } from 'uuid';
 import IconRightButton from '../components/IconRightButton';
 import { useUserContext } from '../contexts/UserContext';
 import { createPost } from '../firebase/posts';
+import events from '../eventBus/events';
 
 const styles = StyleSheet.create({
   block: {
@@ -47,6 +47,7 @@ const UploadScreen = () => {
 
   const onSubmit = useCallback(async () => {
     navigation.pop();
+
     const asset = res.assets[0];
 
     const extension = asset.fileName.split('.').pop();
@@ -63,6 +64,8 @@ const UploadScreen = () => {
     const photoURL = await reference.getDownloadURL();
 
     await createPost({ description, photoURL, user });
+
+    events.emit('refresh');
   }, [navigation, res.assets, description, user]);
 
   useEffect(() => {
