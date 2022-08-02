@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 import PostCard from '../components/PostCard';
 
