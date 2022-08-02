@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   StyleSheet,
@@ -16,11 +17,13 @@ const styles = StyleSheet.create({
 });
 
 function PostGridItem({ post }) {
+  const navigation = useNavigation();
+
   const dimension = useWindowDimensions();
   const size = dimension.width / 3;
 
   const onPress = () => {
-    console.log('press');
+    navigation.navigate('Post', { post });
   };
 
   return (
