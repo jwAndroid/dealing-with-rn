@@ -8,6 +8,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import IconRightButton from '../components/IconRightButton';
+import { updatePost } from '../firebase/posts';
 
 const styles = StyleSheet.create({
   block: {
@@ -28,9 +29,14 @@ function ModifyScreen() {
 
   const [description, setDescription] = useState(params.description);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
+    await updatePost({
+      id: params.id,
+      description,
+    });
+
     navigation.pop();
-  }, [navigation]);
+  }, [navigation, params.id, description]);
 
   useEffect(() => {
     navigation.setOptions({

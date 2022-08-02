@@ -57,3 +57,9 @@ export async function getNewerPosts(id, userId) {
 export async function removePost(id) {
   return postsCollection.doc(id).delete();
 }
+
+export async function updatePost({ id, description }) {
+  return postsCollection.doc(id).update({
+    description,
+  });
+}
