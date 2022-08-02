@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
 
 function Profile({ userId }) {
   const [user, setUser] = useState(null);
-  const { posts, noMorePost, refreshing, onLoadMore, onRefresh } = usePosts();
+  const { posts, noMorePost, refreshing, onLoadMore, onRefresh, removePost } =
+    usePosts();
 
   const { user: me } = useUserContext();
   const isMyProfile = me.id === userId;
@@ -62,10 +63,14 @@ function Profile({ userId }) {
 
     events.addListener('refresh', onRefresh);
 
+    events.addListener('removePost', removePost);
+
     return () => {
       events.removeListener('refresh', onRefresh);
+
+      events.removeListener('removePost', removePost);
     };
-  }, [isMyProfile, onRefresh]);
+  }, [isMyProfile, onRefresh, removePost]);
 
   const renderItem = useCallback(({ item }) => {
     return <PostGridItem post={item} />;

@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { ActionSheetIOS, Platform } from 'react-native';
+import events from '../eventBus/events';
 
 import { removePost } from '../firebase/posts';
 
@@ -20,6 +21,8 @@ export default function usePostActions(id, description) {
     if (route.name === 'Post') {
       navigation.pop();
     }
+
+    events.emit('removePost', id);
   };
 
   const onPressMore = () => {
