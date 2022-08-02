@@ -55,7 +55,10 @@ function PostCard({ user, photoURL, description, createdAt, id }) {
   const navigation = useNavigation();
   const routeNames = useNavigationState(state => state.routeNames);
 
-  const { isSelecting, onPressMore, onClose, actions } = usePostActions();
+  const { isSelecting, onPressMore, onClose, actions } = usePostActions(
+    id,
+    description,
+  );
 
   const { user: me } = useUserContext();
   const isMyPost = me.id === user.id;

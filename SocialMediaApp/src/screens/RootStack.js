@@ -8,6 +8,7 @@ import { useUserContext } from '../contexts/UserContext';
 import MainTab from './MainTab';
 import { subscribeAuth } from '../firebase/authentication';
 import { getUser } from '../firebase/users';
+import ModifyScreen from './ModifyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ const RootStack = () => {
           />
 
           <Stack.Screen name="Upload" component={UploadScreen} />
+          <Stack.Screen
+            name="Modify"
+            component={ModifyScreen}
+            options={{ title: '설명 수정', headerBackTitle: '뒤로가기' }}
+          />
         </>
       ) : (
         <>

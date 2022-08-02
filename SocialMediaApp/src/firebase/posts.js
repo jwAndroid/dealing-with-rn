@@ -53,3 +53,7 @@ export async function getNewerPosts(id, userId) {
     userId,
   });
 }
+
+export async function removePost(id) {
+  return postsCollection.doc(id).delete();
+}

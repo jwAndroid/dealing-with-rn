@@ -1,15 +1,25 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { ActionSheetIOS, Platform } from 'react-native';
 
-export default function usePostActions() {
+import { removePost } from '../firebase/posts';
+
+export default function usePostActions(id, description) {
   const [isSelecting, setIsSelecting] = useState(false);
 
+  const navigation = useNavigation();
+  const route = useRoute();
+
   const edit = () => {
-    console.log('TODO: edit');
+    navigation.navigate('Modify', { id, description });
   };
 
-  const remove = () => {
-    console.log('TODO: remove');
+  const remove = async () => {
+    await removePost(id);
+
+    if (route.name === 'Post') {
+      navigation.pop();
+    }
   };
 
   const onPressMore = () => {
